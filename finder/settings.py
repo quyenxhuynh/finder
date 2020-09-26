@@ -27,7 +27,8 @@ SECRET_KEY = 'x_33eum^h3bpub&&s!(joagee$l=0e6&e8hi6#k8j&o)!4+uj3'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'finder-1-29.herokuapp.com'
+    'finder-1-29.herokuapp.com',
+    '127.0.0.1'
 ]
 
 
