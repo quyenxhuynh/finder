@@ -25,7 +25,9 @@ SECRET_KEY = 'x_33eum^h3bpub&&s!(joagee$l=0e6&e8hi6#k8j&o)!4+uj3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'finder-1-29.herokuapp.com'
+]
 
 
 # Application definition
