@@ -1,0 +1,100 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+    <link rel="stylesheet" type="text/css" href="{% static 'events/main.css' %}">
+
+    {% if title %}
+        <title>Finder - {{ title }}</title>
+    {% else %}
+        <title>Finder</title>
+    {% endif %}
+
+    </head>
+    <body>
+        
+        <header class="site-header">
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: white; color: #414141;">
+                <div class="container">
+                    <a href="{% url 'events-home' %}">
+                        <img src="https://i.imgur.com/s2fBARA.png" width="200" class="logo">
+                    </a>
+                    <!-- <a class="navbar-brand mr-4" href="{% url 'events-home' %}">Finder</a> -->
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarToggle">
+                        <div class="navbar-nav mr-auto">
+                            <a class="nav-item nav-link" href="{% url 'events-home' %}">Home</a>
+                            <a class="nav-item nav-link" href="{% url 'events-discover' %}">Discover</a>
+                            <a class="nav-item nav-link" href="{% url 'events-calendar' %}">Calendar</a>
+                            <a class="nav-item nav-link" href="{% url 'events-all' %}">All Events</a>
+                            <!-- <a class="nav-item nav-link" href="{% url 'events-about' %}">About</a> -->
+                        </div>
+                        <!-- Navbar Right Side -->
+                        <form class="form-inline my-2 my-lg-0">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="border-radius: 50px;">
+                            <!-- <button class="btn btn-hover-gold my-2 my-sm-0" type="submit">Search</button> -->
+                            
+                        </form>
+                        <li class="nav-item dropdown dd-auto">
+                            <a class="nav-link dropdown-toggle dd-auto" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Account
+                            </a>
+                            <div class="dropdown-menu dd-auto" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item dd-auto right-justified" href="#">Profile</a>
+                            <a class="dropdown-item dd-auto right-justified" href="#">Your Events</a>
+                            <a class="dropdown-item dd-auto right-justified" href="#">Settings</a>
+                            <a class="dropdown-item dd-auto right-justified" href="#">Log out</a>
+                            </div>
+                        </li>
+                    
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+          <main role="main" class="container">
+            <div class="row">
+              <div class="col-md-8">
+                  <br>
+                {% block content %}{% endblock %}
+              </div>
+            </div>
+          </main>
+
+      <!-- <main role="main" class="container">
+        <div class="row">
+          <div class="col-md-8">
+            {% if messages %}
+              {% for message in messages %}
+                <div class='alert alert-{{ message.tags }}'>
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </main> -->
+      
+      <!-- <footer class="footer">
+        <div class="container">
+          <div class="footer-copyright text-center py-3">© 2020 Copyright: Absolute Maniacs<br>MIT License</div>
+          
+        </div>
+      </footer> -->
+      
+    
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
