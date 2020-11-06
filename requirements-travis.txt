@@ -6,3 +6,4 @@ Pillow
 django-filter
 psycopg2
 django-leaflet
+gdal
