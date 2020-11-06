@@ -7,4 +7,26 @@
     {% else %}
         <a href="{% url 'events:signin' %}"><h1>Log in</h1></a>
     {% endif %}
+
+{% load leaflet_tags %}
+{% leaflet_css %}
+{% leaflet_js %}
+
+<div>
+    <h1>{{ city.name }}</h1>
+    {% leaflet_map "main" callback="map_init" %}
+</div>
+
+<script type="text/javascript">
+    function map_init(map, options) {
+        // get point lat and lon
+        var lon = "{{ city.geometry.x }}";
+        var lat = "{{ city.geometry.y }}";
+
+        // zoom to point & add it to map
+        map.setView([lat, lon], 12);
+        L.marker([lat, lon]).addTo(map);
+    }
+</script>
+
 {% endblock content %}

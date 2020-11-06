@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'leaflet',
     'django.contrib.gis',
+
 ]
 SITE_ID = 1
 # SOCIALACCOUNT_PROVIDERS = {
