@@ -17,7 +17,6 @@ install:
 - if [[ $DATABASE == sqlite ]]; then sudo apt-get install -y libspatialite-dev libsqlite3-mod-spatialite; fi
 
 - pip install tox tox-travis flake8
-- npm install leaflet/tests/
  
 before_script:
 - flake8 --ignore=E501,W504 leaflet
