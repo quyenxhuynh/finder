@@ -1,6 +1,8 @@
 language: python
 python:
 - '3.8'
+virtualenv:
+  system_site_packages = true
 
 before_install:
   - sudo add-apt-repository --yes ppa:ubuntugis/ppa
