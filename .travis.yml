@@ -1,13 +1,29 @@
 language: python
 python:
 - '3.8'
-before_install:
-  - sudo add-apt-repository --yes ppa:ubuntugis/ppa
-  - sudo apt-get --quiet update
-  - sudo apt-get install --yes libgdal-dev gdal-bin
+
+addons:
+  apt:
+    update: true
+    packages:
+      - libxmlsec1-dev
+      - libgeoip-dev
+      - binutils
+      - libproj-dev
+      - gdal-bin
+      - libgeoip1
+      - python-gdal
+      - postgresql
+      - postgresql-contrib
+      - postgis
+      - libpq-dev
+      - libgeos-dev
+      - redis-server
+      - libffi6
+      - libffi-dev
+
 install:
 - pip install -r requirements-travis.txt
-- pip install gdal==`gdal-config --version`
 script:
 - python manage.py test
 
