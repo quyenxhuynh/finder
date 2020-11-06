@@ -1,25 +1,15 @@
-
-sudo: false
 language: python
 python:
-- "3.8"
-services:
-- postgresql
-install: "pip install -r requirements.txt"
-before_script:
-- sudo apt-get install -y gdal-bin
-- psql -c 'create database testdb;' -U postgres
-script: python3 manage.py test
-notifications:
-  irc:
-    channels:
-    - "irc.freenode.net#umap"
-    on_success: change
-    on_failure: always
-  email: false
-branches:
-  only:
-  - master
+- '3.8'
+before_install:
+  - sudo add-apt-repository --yes ppa:ubuntugis/ppa
+  - sudo apt-get --quiet update
+  - sudo apt-get install --yes libgdal-dev gdal-bin
+install:
+- pip install -r requirements-travis.txt
+- pip install gdal==`gdal-config --version`
+script:
+- python manage.py test
 
 deploy:
   provider: heroku
