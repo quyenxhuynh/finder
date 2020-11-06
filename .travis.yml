@@ -2,6 +2,9 @@ language: python
 python:
 - '3.8'
 
+before_install:
+  - R -e 'install.packages("rgdal", repos=c("http://R-Forge.R-project.org", "http://cran.rstudio.com"))'
+
 install:
 - pip install -r requirements-travis.txt
  
