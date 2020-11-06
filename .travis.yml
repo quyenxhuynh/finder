@@ -27,13 +27,6 @@ before_script:
 
 script:
 - python manage.py test
-- tox
-- node --version
-- node node_modules/mocha-phantomjs/bin/mocha-phantomjs leaflet/tests/index.html
-
-after_success:
-- pip install coveralls
-- coveralls
 
 deploy:
   provider: heroku
