@@ -49,7 +49,7 @@
 </form>
 {% endif %}
 
-<input type="text" style="display: none" value="{{ request.build_absolute_uri }}" placeholder="{{ request.build_absolute_uri }}" id="toCopy">
+<input type="hidden" value="{{ request.build_absolute_uri }}" placeholder="{{ request.build_absolute_uri }}" id="toCopy">
 <input type="image" onclick="copyToClipboard()" style="width:50px" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHdpZHRoPSI1MTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgaWQ9IlNvbGlkIj48cGF0aCBkPSJtMTgyLjQ2MSAxNTUuNDggNDkuNTM5LTQ5LjUzOXYyNjIuMDU5YTI0IDI0IDAgMCAwIDQ4IDB2LTI2Mi4wNTlsNDkuNTM5IDQ5LjUzOWEyNCAyNCAwIDEgMCAzMy45NDEtMzMuOTQxbC05MC41MDktOTAuNTFhMjQgMjQgMCAwIDAgLTMzLjk0MiAwbC05MC41MDkgOTAuNTFhMjQgMjQgMCAxIDAgMzMuOTQxIDMzLjk0MXoiLz48cGF0aCBkPSJtNDY0IDIzMmEyNCAyNCAwIDAgMCAtMjQgMjR2MTg0aC0zNjh2LTE4NGEyNCAyNCAwIDAgMCAtNDggMHYxOTJhNDAgNDAgMCAwIDAgNDAgNDBoMzg0YTQwIDQwIDAgMCAwIDQwLTQwdi0xOTJhMjQgMjQgMCAwIDAgLTI0LTI0eiIvPjwvZz48L3N2Zz4=" >
 
 <script language="javascript">
@@ -73,10 +73,12 @@
 
     function copyToClipboard() {
         var copyText = document.getElementById("toCopy")
-        copyText.select()
+        copyText.type = 'text';
+        copyText.select();
         copyText.setSelectionRange(0, 99999); 
         document.execCommand("copy");
         alert("Copied the text: " + copyText.value);
+        copyText.type = 'hidden';
     }
 </script>
 
