@@ -53,22 +53,9 @@ INSTALLED_APPS = [
 
 ]
 SITE_ID = 1
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#         'SCOPE': [
-#             'profile'
-#             'email', 
-#         ],
-#     'AUTH_PARAMS': {
-#         'access_type': 'offline', 
-#     }
-#     }
-# }
 ACCOUNT_USERNAME_REQUIRED = False 
-#
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
-#
 SOCIAL_ACCOUNT_AUTO_SIGNUP = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_PROVIDERS = {
@@ -117,11 +104,22 @@ WSGI_APPLICATION = 'finder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': str(BASE_DIR / 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(BASE_DIR / 'db.sqlite3'),
-    }
+  'default': {
+    'ENGINE': 'django.contrib.gis.db.backends.postgis',
+    'NAME': 'postgresql-deep-15074',
+    'HOST': 'ec2-3-215-207-12.compute-1.amazonaws.com',
+    'PORT': 5432,
+    'USER': 'otiiqpbukqgzlg',
+    'PASSWORD': '1a96491c90e365d67274056e24c33ba8ae41b127b5b42ef1d18224d889b6925b'
+  }
 }
 
 
