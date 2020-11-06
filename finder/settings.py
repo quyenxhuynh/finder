@@ -116,7 +116,7 @@ WSGI_APPLICATION = 'finder.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': str(BASE_DIR / 'db.sqlite3'),
     }
 }
