@@ -1,0 +1,41 @@
+{% extends 'events/base.html' %}
+{% load static %}
+{% block content %}
+
+<h1>create a new event.</h1>
+<form method='post' enctype="multipart/form-data">
+    {% csrf_token %}
+    <label>Event Name</label>
+    <input type="text" id="name" name="event_name" class="form-control" max_length=100 required>
+
+    <label>Date</label>
+    <input type="date" name="event_date" class="form-control" default="Date" required>
+
+    <label>Time</label>
+    <input type="time" name="event_time" class="form-control" placeholder="Time">
+
+    <label>Description</label>
+    <textarea id="description" name="event_description" class="form-control" max_length=500></textarea>
+
+    <label>Banner</label>
+    <input type="file" name="event_banner" class="form-control" placeholder="Banner" accept="image/*">
+
+    <label>Tags</label>
+    <input type="text" name="event_tags" class="form-control" maxlength=100><br>
+    <button type="submit" class="save btn btn-outline-dark">create.</button>
+</form>
+
+<script>
+    var description = document.getElementById("description")
+    function descriptionLength() {
+        if (description.value.length > 500) {
+            description.setCustomValidity("Must be less than 500 characters.")
+        } else {
+            description.setCustomValidity("")
+        }
+    }
+
+    description.onkeyup = descriptionLength
+</script>
+
+{% endblock %}

@@ -2,21 +2,21 @@
 {% load static %}
 {% block content %}
 
-<a href="{% url 'events:new-event' %}" style="text-align: right;">New Event</a>
-
-<h1>All Events</h1>
+<h1>Agenda</h1>
 <hr>
 {% if events %}
-    {% for event in events %}
-        {% if event.event_date %}
-            {{ event.event_date }}
-        {% endif %}
-        <h3><a href="{% url 'events:individual-event' event.id %}">{{ event.event_name }}</a></h3>
-        {% if event.event_description %}
-            <p>{{ event.event_description }}</p>
-        {% endif %}
-        <hr>
-    {% endfor %}
+{% for event in events %}
+    {% if event.event_date %}
+        {{ event.event_date }}
+    {% endif %}
+    <h3><a href="{% url 'events:individual-event' event.id %}">{{ event.event_name }}</a></h3>
+    {% if event.event_description %}
+        <p>{{ event.event_description }}</p>
+    {% endif %}
+
+    <hr>
+
+{% endfor %}
 {% endif %}
 
 {% endblock %}

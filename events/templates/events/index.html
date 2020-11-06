@@ -1,0 +1,135 @@
+{% load static %}
+{% load socialaccount %}
+
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <title>Finder</title>
+    
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+        <link rel="stylesheet" href="{% static 'events/index.css' %}">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        
+    </head>
+
+    <body>
+
+        {% if login_error %}
+            <p style="background-color: #f54242; text-align: center; padding: 5px;">Invalid username and/or password. Try again!</p>
+        {% elif reg_error %}
+            <p style="background-color: #f54242; text-align: center; padding: 5px;">Invalid registration. Try again!</p>
+        {% endif %}
+
+        <div class="container">
+            <div class="left">
+                <div class="left-align">
+                    <img src="{% static 'events/images/logo.png' %}" alt="Finder" width=300em>
+                    <h2 class="tab">find the best events near you.</h2>
+                </div>
+            </div>
+            <div class="right">
+                <div class="left-align">
+                    <h2>see what's happening now.</h2>
+                    <h2>join finder today.</h2>
+                    <div class="btn-content">
+                        <button id="signup-btn" class="btn btn-gold">sign up.</button><br>
+                        <button id="login-btn" class="btn btn-seethru">sign in.</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="login-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <br>
+                <img src="{% static 'events/images/logo2.png' %}" alt="Finder" width=50em><br><br>
+                <a href="{% provider_login_url 'google' %}"><button class="btn btn-gold2">sign in with google.</button></a>
+                <button id="login-email-btn" class="btn btn-seethru2">sign in with email.</button>
+            </div>
+        </div>
+
+        <div id="login-email-modal" class="modal">
+            <div class="modal-content modal-long">
+                <span class="back">&larr;</span>
+                <span class="close">&times;</span>
+                <br>
+                <img src="{% static 'events/images/logo2.png' %}" alt="Finder" width=50em><br><br>
+                <form method="post">
+                  {% csrf_token %}
+                  <input name="username" class="user-input" type="text" placeholder="username." required><br>
+                  <input name="password1" class="user-input" type="password" placeholder="password." required><br>
+                  <button name="signin" type="submit" class="btn btn-gold2 btn-login">sign in.</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="signup-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <br>
+                <img src="{% static 'events/images/logo2.png' %}" alt="Finder" width=50em><br><br>
+                <a href="{% provider_login_url 'google' %}"><button class="btn btn-gold2">sign up with google.</button></a>
+                <button id="signup-email-btn" class="btn btn-seethru2">sign up with email.</button>
+            </div>
+        </div>
+
+        <div id="signup-email-modal" class="modal">
+            <div class="modal-content modal-longer">
+                <span class="back">&larr;</span>
+                <span class="close">&times;</span>
+                <br>
+                <img src="{% static 'events/images/logo2.png' %}" alt="Finder" width=50em><br><br>
+                <form method="post">
+                  {% csrf_token %}
+                  <input name="first_name" class="user-input" type="text" placeholder="first name." required><br>
+                  <input name="last_name" class="user-input" type="text" placeholder="last name." required><br>
+                  <input name="email" class="user-input" type="text" placeholder="email."><br>
+                  <input name="username" id="username" class="user-input" type="text" placeholder="username." required><br>
+                  <input name="password1" id="password" class="user-input" type="password" placeholder="password." required>
+                  <input name="password2" id="confirm_password" class="user-input" type="password" placeholder="confirm password." required><br>
+                  <button name="signup" type="submit" class="btn btn-gold2 btn-login">sign up.</button>
+                </form>
+            </div>
+        </div>
+        {% if user_exists %}
+            <script>
+                var username = document.getElementById("username")
+                function InvalidUser() {
+                    username.setCustomValidity("Username in use.")
+                }
+            </script>
+        {% endif %}
+
+        <script>
+            var password = document.getElementById("password")
+            var confirm_password = document.getElementById("confirm_password");
+
+            function pwLength() {
+                if (password.value.length < 8) {
+                    password.setCustomValidity("Must be at least 8 characters.")
+                }
+                else {
+                    password.setCustomValidity("")
+                }
+            }
+
+            function validatePassword(){
+                if (password.value != confirm_password.value) {
+                    confirm_password.setCustomValidity("Passwords don't match.");
+                } 
+                
+                else {
+                    confirm_password.setCustomValidity("");
+                }
+            }
+
+            password.onchange = validatePassword;
+            password.onkeyup = pwLength;
+            confirm_password.onkeyup = validatePassword;
+        </script>
+        <script src="{% static 'events/index.js' %}"></script>
+    </body>
+</html>
+

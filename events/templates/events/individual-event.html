@@ -1,0 +1,83 @@
+{% extends 'events/base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- {% if post.banner %} 
+<img src="{{ post.banner.url }}" alt="{{ post.event_name }}">
+{% endif %} -->
+{% if post.event_organizer == user %}
+<a href="{% url 'events:update-event' post.id %}">Edit Post</a>
+<a href="{% url 'events:delete-event' post.id %}">Delete Post</a>
+{% endif %}
+
+<h2>{{ post.event_name }}</h2> 
+
+{% if post.event_organizer %}
+<p>by {{ post.event_organizer }}
+{% endif %} at
+{{ post.event_date }} {{ post.event_time }}</p>
+<p>{{ post.event_description }}</p>
+
+<!-- {{ post.id }} <br>
+{{ user }} <br>
+{{ user.profile }} <br>
+{{ user.profile.favorites.all }}
+{{ user.profile.rsvped.all }}
+<br> -->
+
+{% if post in favorite_posts %}
+<form method="post" action="{% url 'events:unfav-event' post.id %}">
+    {% csrf_token %}
+    <input type="image" onclick='changeFav()' src="https://i.imgur.com/pw5U3Vy.png" style="width: 50px;">
+</form>
+{% else %}
+<form action="{% url 'events:fav-event' post.id %}">
+    {% csrf_token %}
+    <input type="image" onclick='changeFav()' src="https://i.imgur.com/kDDHION.png" style="width: 50px;">
+</form>
+{% endif %}
+
+{% if post in rsvped_posts %}
+<form method="post" action="{% url 'events:unrsvp-event' post.id %}">
+    {% csrf_token %}
+    <input type="image" onclick='changeRSVP()' src="https://i.imgur.com/LyENq6z.png" style="width: 50px;">
+</form>
+{% else %}
+<form method="post" action="{% url 'events:rsvp-event' post.id %}">
+    {% csrf_token %}
+    <input type="image" onclick='changeRSVP()' src="https://i.imgur.com/UUP1FbJ.png" style="width: 50px;">
+</form>
+{% endif %}
+
+<input type="text" style="display: none" value="{{ request.build_absolute_uri }}" placeholder="{{ request.build_absolute_uri }}" id="toCopy">
+<input type="image" onclick="copyToClipboard()" style="width:50px" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHdpZHRoPSI1MTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgaWQ9IlNvbGlkIj48cGF0aCBkPSJtMTgyLjQ2MSAxNTUuNDggNDkuNTM5LTQ5LjUzOXYyNjIuMDU5YTI0IDI0IDAgMCAwIDQ4IDB2LTI2Mi4wNTlsNDkuNTM5IDQ5LjUzOWEyNCAyNCAwIDEgMCAzMy45NDEtMzMuOTQxbC05MC41MDktOTAuNTFhMjQgMjQgMCAwIDAgLTMzLjk0MiAwbC05MC41MDkgOTAuNTFhMjQgMjQgMCAxIDAgMzMuOTQxIDMzLjk0MXoiLz48cGF0aCBkPSJtNDY0IDIzMmEyNCAyNCAwIDAgMCAtMjQgMjR2MTg0aC0zNjh2LTE4NGEyNCAyNCAwIDAgMCAtNDggMHYxOTJhNDAgNDAgMCAwIDAgNDAgNDBoMzg0YTQwIDQwIDAgMCAwIDQwLTQwdi0xOTJhMjQgMjQgMCAwIDAgLTI0LTI0eiIvPjwvZz48L3N2Zz4=" >
+
+<script language="javascript">
+    function changeFav() {
+        if (document.getElementById("fav").src == "https://i.imgur.com/kDDHION.png") {
+            document.getElementById("fav").src = "https://i.imgur.com/pw5U3Vy.png"
+        }
+        else {
+            document.getElementById("fav").src = "https://i.imgur.com/kDDHION.png"
+        }
+    }
+
+    function changeRSVP() {
+        if (document.getElementById("rsvp").src == "https://i.imgur.com/UUP1FbJ.png") {
+            document.getElementById("rsvp").src = "https://i.imgur.com/LyENq6z.png"
+        }
+        else {
+            document.getElementById("rsvp").src = "https://i.imgur.com/UUP1FbJ.png"
+        }
+    }
+
+    function copyToClipboard() {
+        var copyText = document.getElementById("toCopy")
+        copyText.select()
+        copyText.setSelectionRange(0, 99999); 
+        document.execCommand("copy");
+        alert("Copied the text: " + copyText.value);
+    }
+</script>
+
+{% endblock %}

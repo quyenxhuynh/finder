@@ -1,0 +1,22 @@
+{% extends 'events/base.html' %}
+{% load static %}
+{% block content %}
+
+<h1>delete post.</h1>
+
+
+
+<form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        <h4>Are you sure you want to delete {{ post.event_name }}?</h4>
+        <p>This action cannot be undone.</p>
+    </fieldset>
+    <div class="form-group">
+        <button class="btn btn-outline-danger" type="submit">delete.</button>
+        <a href="{% url 'events:individual-event' post.id %}" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+</form>
+
+
+{% endblock %}

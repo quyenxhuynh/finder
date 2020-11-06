@@ -1,1 +1,10 @@
-{% extends "events/base.html" %}
+{% extends 'events/base.html' %}
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1>Home</h1>
+        <p>Welcome back, {{ user.username }}</p>
+        <a href="{% url 'events:signout' %}">Log out</a>
+    {% else %}
+        <a href="{% url 'events:signin' %}"><h1>Log in</h1></a>
+    {% endif %}
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends 'events/base.html' %}
+{% load static %}
+{% block content %}
+
+<h1>People</h1>
+<hr>
+{% if profiles %}
+{% for profile in profiles %}
+    {% if profile.user.first_name and profile.user.last_name %}}
+     <h3><a href="{% url 'events:profile' slug=profile.user %}">{{ profile.user.first_name }}</a></h3>
+    {% endif %}
+{% endfor %}
+{% endif %}
+
+{% endblock %}

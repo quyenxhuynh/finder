@@ -1,0 +1,23 @@
+{% extends 'events/base.html' %}
+{% load static %}
+
+{% block content %}
+  {% if profile %}
+    <div class="content-section">
+      <div class="media">
+        <div class="media-body">
+          <h2 class="account-heading">{{ profile.user.username }}</h2>
+          <p class="text-secondary">{{ profile.user.email }}</p>
+        </div>
+      </div>
+    </div>
+    <hr>
+    {% ifequal profile.user user%}
+    <div>
+      <a href="/accounts/password/change/">Change Password</a>
+      <br>
+      <a href="/accounts/email/">Change E-Mail</a>
+    </div>
+    {% endifequal %}
+  {% endif %}
+{% endblock content %}

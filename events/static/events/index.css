@@ -1,0 +1,224 @@
+* {
+    margin: 0%;
+    padding: 0%;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 100;
+}
+
+/* GENERAL BG AND TEXT */
+.container {
+    height: 100vh;
+    display: flex;
+}
+
+.left, .right {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+    flex-grow: 1;
+    font-size: small;
+}
+
+.left {
+    background-color: white;
+    color: #414141;
+    
+}
+
+.right {
+    background-color: #414141;
+    color: white;
+}
+
+.left-align {
+    text-align: left;
+}
+
+.tab {
+    margin-left: 7em;
+}
+
+.btn-content {
+    margin-top: 2em;
+}
+
+.btn {
+    font-size: medium;
+    width: 250px;
+    height: 30px;
+    border-radius: 25px;
+    border: solid black 1px;
+    margin: 5px;
+    font-weight: 600;
+    color: #414141;
+}
+
+.btn:hover {
+    background-color: #414141;
+    border-color: white;
+}
+
+/* DARK BACKGROUND */
+.btn-gold {
+    background-color: #F7C547;
+    border-color: #F7C547;
+}
+
+.btn-gold:hover {
+    background-color: white;
+    border-color: white;
+}
+
+
+.btn-seethru {
+    background-color: transparent;
+    color: #F7C547;
+    border-color: #F7C547;
+}
+
+.btn-seethru:hover {
+    background-color: white;
+    border-color: white;
+    color: #414141;
+}
+
+
+/* WHITE BACKGROUND */
+.btn-gold2 {
+    background-color: #F7C547;
+    border-color: #F7C547;
+}
+
+.btn-gold2:hover {
+    background-color: #414141;
+    border-color: #414141;
+    color: white;
+}
+
+.btn-seethru2 {
+    background-color: transparent;
+    color: #414141;
+    border-color: #414141;
+}
+
+.btn-seethru2:hover {
+    background-color: #414141;
+    border-color: #414141;
+    color: white;
+}
+
+.btn-login {
+    width: 125px;
+    background-color: transparent;
+    border: #F7C547 1px solid;
+    font-weight: bold;
+}
+
+.btn-login:hover {
+    width: 125px;
+    background-color: #414141;
+    border: #414141 1px solid;
+}
+
+
+.user-input {
+    box-sizing: border-box;
+    margin: 5px 0;
+    padding: 5px 10px;
+    border-radius: 25px;
+    border:1px solid #414141;
+    width: 250px;
+}
+
+
+/* MODALS */
+
+/* darken background */
+.modal { 
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); /* if browser doesn't support opacity */
+    background-color: rgba(0,0,0,0.4); 
+}
+
+/* regular modal */
+.modal-content {
+    border-radius: 10px;
+    text-align: center;
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #414141;
+    width: 25em; 
+    height: 13em;
+}
+
+/* sign in with email */
+.modal-long { 
+    height: 15em;
+    margin: 14% auto;
+}
+
+/* sign up with email */
+.modal-longer { 
+    height: 25em;
+    margin: 10% auto;
+}
+  
+/* modal close */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+  
+.close:hover, .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* modal back */
+.back {
+    color: #aaa;
+    float: left;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+  
+.back:hover, .back:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/* MOBILE SUPPORT */
+@media screen and (max-width: 600px) {
+    .container {
+        display: block;
+    }
+    .left, .right {
+        height: 50vh;
+    }
+}
+
+@media screen and (max-height: 300px) {
+    .left {
+        display: none;
+    }
+    .right {
+        height: 100vh;
+    }
+}

@@ -1,0 +1,46 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>First Name</label>
+        <input name="first_name" class="form-control" type="text" placeholder="john" required>
+    </div>
+
+    <div class="form-group">
+        <label>Last Name</label>
+        <input name="last_name" class="form-control" type="text" placeholder="smith" required>
+    </div>
+
+    <div class="form-group">
+        <label>Email</label>
+        <input name="email" class="form-control" type="text" placeholder="jsmith@company.com">
+    </div>
+
+    <div class="form-group">
+        <label>Username</label>
+        <input name="username" id="username" class="form-control" type="text" placeholder="jsmith" required>
+    </div>
+
+    <div class="form-group">
+        <label>Password</label>
+        <input name="password1" id="password" class="form-control" type="password" placeholder="********" required>
+    </div>
+    
+    <div class="form-group">
+        <label>Confirm Password</label>
+        <input name="password2" id="confirm_password" class="form-control" type="password" placeholder="********" required>
+    </div>
+    
+    <div class="form-group">
+        <button name="signup" type="submit" class="btn btn-gold2 btn-login bg-dark btn-dark">sign up.</button>
+    </div>
+    
+  </form>
+
+  <hr>
+  <p>Have an account? <a href="{% url 'events:signin' %}">Sign in!</a></p>
+
+{% endblock %}
