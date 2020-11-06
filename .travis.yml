@@ -3,6 +3,9 @@ python:
 - '3.8'
 
 addons:
+  homebrew:
+    packages:
+    - gdal
   postgresql: '10'
   apt:
     packages:
