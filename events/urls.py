@@ -12,7 +12,7 @@ urlpatterns = [
     path('signout/', views.signout, name="signout"),
 
     path('all-events/', views.all_events, name="all-events"),
-    path('saved_events/', views.saved_events, name="saved-events"),
+    path('calendar/', views.saved_events, name="saved-events"),
 
     path('new-event/', EventCreateView.as_view(), name="new-event"),
     path('posts/<int:pk>/update/', EventUpdateView.as_view(), name="update-event"),
