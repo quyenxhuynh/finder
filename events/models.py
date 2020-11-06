@@ -7,6 +7,7 @@ from PIL import Image
 from django.urls import reverse
 from django.utils.text import slugify
 from django.shortcuts import reverse
+from django.contrib.gis.db import models as geomodels
 
 class Event(models.Model):
     event_organizer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -17,6 +18,7 @@ class Event(models.Model):
     event_banner = models.ImageField(null=True, blank=True)
     event_tags = models.CharField(null=True, blank=True, max_length = 100)
     
+    geometry = geomodels.PointField(null=True, blank=True)
     date_posted = models.DateTimeField(auto_now_add=True)
 
     @property

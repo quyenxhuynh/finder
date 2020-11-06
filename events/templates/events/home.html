@@ -1,4 +1,5 @@
 {% extends 'events/base.html' %}
+{% load leaflet_tags %}
 {% block content %}
     {% if user.is_authenticated %}
         <h1>Home</h1>
@@ -7,4 +8,21 @@
     {% else %}
         <a href="{% url 'events:signin' %}"><h1>Log in</h1></a>
     {% endif %}
+
+    <head>
+        {% leaflet_js %}
+        {% leaflet_css %}
+    </head>
+    <body>
+        <h3>Events Nearby</h3>
+        {% leaflet_map "main" callback="main_map_init" %}
+
+        <script type="text/javascript">
+            function main_map_init (map, options) {
+                // Use Leaflet API here
+                // we will want to display all events within some radius
+            }
+        </script>
+    </body>
+
 {% endblock content %}
