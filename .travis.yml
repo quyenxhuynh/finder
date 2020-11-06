@@ -1,51 +1,26 @@
+
+sudo: false
 language: python
-python: "3.6"
-      env:
-        GDALVERSION="2.3.3"
-        PROJVERSION="4.9.3"
-    - python: "3.6"
-      env:
-        GDALVERSION="2.4.4"
-        PROJVERSION="4.9.3"
-    - python: "3.7"
-      env:
-        GDALVERSION="2.4.4"
-        PROJVERSION="4.9.3"
-    - python: "3.8"
-      env:
-        GDALVERSION="2.4.4"
-        PROJVERSION="4.9.3"
-    - python: "3.6"
-      env:
-        GDALVERSION="3.0.4"
-        PROJVERSION="6.2.1"
-    - python: "3.7"
-      env:
-        GDALVERSION="3.0.4"
-        PROJVERSION="6.2.1"
-    - python: "3.8"
-      env:
-        GDALVERSION="3.0.4"
-        PROJVERSION="6.2.1"
-    - python: "3.8"
-      env:
-        GDALVERSION="master"
-        PROJVERSION="6.2.1"
-  allow_failures:
-    - env:
-        GDALVERSION="master"
-        PROJVERSION="6.2.1"
-
-before_install:
- - ./gdal/ci/travis/${BUILD_NAME}/before_install.sh
-
-install:
-- pip install -r requirements-travis.txt
-- ./gdal/ci/travis/${BUILD_NAME}/install.sh
-
-script:
-- python manage.py test
-- ./gdal/ci/travis/${BUILD_NAME}/script.sh
+python:
+- "2.7"
+- "3.4"
+- "3.5"
+services:
+- postgresql
+install: "pip install -r requirements.txt"
+before_script:
+- psql -c 'create database testdb;' -U postgres
+script: make test
+notifications:
+  irc:
+    channels:
+    - "irc.freenode.net#umap"
+    on_success: change
+    on_failure: always
+  email: false
+branches:
+  only:
+  - master
 
 deploy:
   provider: heroku
