@@ -3,10 +3,13 @@ python:
 - '3.8'
 
 before_install:
-  - R -e 'install.packages("rgdal", repos=c("http://R-Forge.R-project.org", "http://cran.rstudio.com"))'
+  - sudo add-apt-repository --yes ppa:ubuntugis/ppa
+  - sudo apt-get --quiet update
+  - sudo apt-get install --yes libgdal-dev gdal-bin
 
 install:
 - pip install -r requirements-travis.txt
+- pip install gdal==`gdal-config --version`
  
 script:
 - python manage.py test
