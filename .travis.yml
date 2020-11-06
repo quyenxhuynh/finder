@@ -37,23 +37,16 @@ python: "3.6"
         PROJVERSION="6.2.1"
 
 before_install:
-  - python -m pip install -U pip
-  - python -m pip install wheel
-  - export PATH=$GDALINST/gdal-$GDALVERSION/bin:$PATH
-  - export LD_LIBRARY_PATH=$GDALINST/gdal-$GDALVERSION/lib:$LD_LIBRARY_PATH
-  - ../scripts/travis_proj_install.sh
-  - travis_wait 20 . ./scripts/travis_gdal_install.sh
-  - export GDAL_DATA=$GDALINST/gdal-$GDALVERSION/share/gdal
-  - export PROJ_LIB=$GDALINST/gdal-$GDALVERSION/share/proj
+ - ./gdal/ci/travis/${BUILD_NAME}/before_install.sh
 
 install:
 - pip install -r requirements-travis.txt
-- "if [ \"$GDALVERSION\" == \"master\" -o $(gdal-config --version) == \"$GDALVERSION\" ]; then echo \"Using gdal $GDALVERSION\"; else echo \"NOT using gdal $GDALVERSION as expected; aborting\"; exit 1; fi"
-- "python -m pip wheel -r requirements.txt"
-- "python -m pip install -r requirements.txt"
-- "GDAL_CONFIG=$GDALINST/gdal-$GDALVERSION/bin/gdal-config python -m pip install --no-deps --force-reinstall --no-use-pep517 -e ."
+- ./gdal/ci/travis/${BUILD_NAME}/install.sh
+
 script:
 - python manage.py test
+- ./gdal/ci/travis/${BUILD_NAME}/script.sh
+
 deploy:
   provider: heroku
   api_key:
