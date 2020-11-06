@@ -1,16 +1,15 @@
-virtualenv:
-  system_site_packages: true
 language: python
 python:
 - '3.8'
 
-addons:
-  homebrew:
-    packages:
-    - postgresql
-    - postgis
-    - gdal
-    - libgeoip
+before_install:
+- sudo apt-get update
+- sudo apt-get install python3-pip python3-dev libpq-dev 
+- sudo apt-get install binutils libproj-dev gdal-bin
+- pip install GDAL
+- sudo apt install postgresql postgresql-contrib
+- sudo apt install postgis
+- sudo apt-get install postgresql-10-postgis-scripts
 
 install:
 - pip install -r requirements-travis.txt
