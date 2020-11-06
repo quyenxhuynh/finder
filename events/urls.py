@@ -1,15 +1,3 @@
-# from django.urls import path
-# from . import views
-
-# urlpatterns = [
-#     path('', views.auth, name='events-auth'),
-#     path('home/', views.home, name='events-home'),
-#     path('discover/', views.discover, name='events-discover'),
-#     path('calendar/', views.calendar, name='events-calendar'),
-#     path('all-events/', views.all, name='events-all'),
-#     path('about/', views.about, name='events-about'),
-# ]
-
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
@@ -24,7 +12,7 @@ urlpatterns = [
     path('signout/', views.signout, name="signout"),
 
     path('all-events/', views.all_events, name="all-events"),
-    path('saved-events/', views.saved_events, name="saved-events"),
+    path('saved_events/', views.saved_events, name="saved-events"),
 
     path('new-event/', EventCreateView.as_view(), name="new-event"),
     path('posts/<int:pk>/update/', EventUpdateView.as_view(), name="update-event"),

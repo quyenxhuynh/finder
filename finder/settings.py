@@ -163,12 +163,12 @@ AUTHENTICATION_BACKENDS = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-# LOGIN_REDIRECT_URL = 'events:home'
-# LOGIN_URL = 'events:signin'
+LOGIN_REDIRECT_URL = 'events:home'
+LOGIN_URL = 'events:signin'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'events/static/media')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'events/static/media')
 
 	
 try:
