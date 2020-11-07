@@ -11,4 +11,4 @@ deploy:
     secure: e058839e-10e5-4205-916b-15fdd44abd08
   app: finder-1-29
   on:
-    repo: uva-cs3240-f20/finder-1-29
+    repo: finder-1-29
