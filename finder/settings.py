@@ -33,7 +33,6 @@ ALLOWED_HOSTS = [
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'events.apps.EventsConfig',
     'django.contrib.admin',
@@ -49,23 +48,15 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
 ]
+
+
 SITE_ID = 1
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#         'SCOPE': [
-#             'profile'
-#             'email', 
-#         ],
-#     'AUTH_PARAMS': {
-#         'access_type': 'offline', 
-#     }
-#     }
-# }
+
 ACCOUNT_USERNAME_REQUIRED = False 
-#
+
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
-#
+
 SOCIAL_ACCOUNT_AUTO_SIGNUP = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 SOCIALACCOUNT_PROVIDERS = {
