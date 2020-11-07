@@ -32,7 +32,7 @@ class Event(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_pic = models.ImageField(default="default_pfp.png", upload_to="profile_pics")
-    slug = models.SlugField(unique=False, null=True) #should be unique, these fields are added to allow for code to be merged with the existing database. call save to make correct slugs
+    slug = models.SlugField(unique=False, null=True) 
     favorites = models.ManyToManyField(Event, related_name='favorited_by')
     rsvped = models.ManyToManyField(Event, related_name='rsvped_by')
 
