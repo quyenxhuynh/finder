@@ -1,9 +1,12 @@
+Note: The Google Maps API has since been shut down.
+
 # Finder
 Finder is a social justice app created to help organize meet-ups and protests...
+Deployed site: https://project-1-29.herokuapp.com/
 
 ### Features
 - create new protest or meetup events
-  - include a banner, tags, and event information
+- include a banner, tags, and event information
 - view nearby events through an interactive map
 - favorite, rsvp, and share events
 
@@ -11,7 +14,7 @@ Finder is a social justice app created to help organize meet-ups and protests...
 - OAuth: secure login
 - Google Places API: display map/autocomplete
 
-### Install and Run
+### Install and Run Locally
 Install Django dependencies:  
 `pip install -r requirements.txt`  
 Initialize database tables:  
