@@ -2,84 +2,117 @@
 {% load static %}
 {% block content %}
 
-<!-- {% if post.banner %} 
-<img src="{{ post.banner.url }}" alt="{{ post.event_name }}">
-{% endif %} -->
-{% if post.event_organizer == user %}
-<a href="{% url 'events:update-event' post.id %}">Edit Post</a>
-<a href="{% url 'events:delete-event' post.id %}">Delete Post</a>
+<div class="event-container">
+{% if post.banner %} 
+<img style="border-radius: 25px" href="{{ post.banner.url }}" alt="{{ post.event_name }}" width="100%" height="200px">
 {% endif %}
 
-<h2>{{ post.event_name }}</h2> 
+<div class="flex-row" style='align-items: center;'>
+    <h1>{{ post.event_name }}.</h1>
+    {% if post.event_organizer == user %}
+    <div>
+        <a href="{% url 'events:update-event' post.id %}"><button class="save btn btn-outline-light">Edit Post.</button></a>
+        <a  href="{% url 'events:delete-event' post.id %}"><button class="save btn btn-outline-light">Delete Post.</button></a>
+        
+    </div>
+    {% endif %}
+</div>
 
-{% if post.event_organizer %}
-<p>by {{ post.event_organizer }}
-{% endif %} at
-{{ post.event_date }} {{ post.event_time }}</p>
-<p>{{ post.event_description }}</p>
 
-<!-- {{ post.id }} <br>
-{{ user }} <br>
-{{ user.profile }} <br>
-{{ user.profile.favorites.all }}
-{{ user.profile.rsvped.all }}
-<br> -->
+<div class="event-list">
+    <div style="text-align: left;">
+        {{ post.event_description }}
+    </div>
+</div>
 
-{% if post in favorite_posts %}
-<form method="post" action="{% url 'events:unfav-event' post.id %}">
-    {% csrf_token %}
-    <input type="image" onclick='changeFav()' src="https://i.imgur.com/pw5U3Vy.png" style="width: 50px;">
-</form>
-{% else %}
-<form action="{% url 'events:fav-event' post.id %}">
-    {% csrf_token %}
-    <input type="image" onclick='changeFav()' src="https://i.imgur.com/kDDHION.png" style="width: 50px;">
-</form>
+{% if post.event_tags %}
+<div class="event-list">
+    <div style="text-align: left;">
+        Tags: {{ post.event_tags }}
+    </div>
+</div>
 {% endif %}
 
-{% if post in rsvped_posts %}
-<form method="post" action="{% url 'events:unrsvp-event' post.id %}">
-    {% csrf_token %}
-    <input type="image" onclick='changeRSVP()' src="https://i.imgur.com/LyENq6z.png" style="width: 50px;">
-</form>
-{% else %}
-<form method="post" action="{% url 'events:rsvp-event' post.id %}">
-    {% csrf_token %}
-    <input type="image" onclick='changeRSVP()' src="https://i.imgur.com/UUP1FbJ.png" style="width: 50px;">
-</form>
-{% endif %}
-
-<input type="hidden" value="{{ request.build_absolute_uri }}" placeholder="{{ request.build_absolute_uri }}" id="toCopy">
-<input type="image" onclick="copyToClipboard()" style="width:50px" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHdpZHRoPSI1MTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgaWQ9IlNvbGlkIj48cGF0aCBkPSJtMTgyLjQ2MSAxNTUuNDggNDkuNTM5LTQ5LjUzOXYyNjIuMDU5YTI0IDI0IDAgMCAwIDQ4IDB2LTI2Mi4wNTlsNDkuNTM5IDQ5LjUzOWEyNCAyNCAwIDEgMCAzMy45NDEtMzMuOTQxbC05MC41MDktOTAuNTFhMjQgMjQgMCAwIDAgLTMzLjk0MiAwbC05MC41MDkgOTAuNTFhMjQgMjQgMCAxIDAgMzMuOTQxIDMzLjk0MXoiLz48cGF0aCBkPSJtNDY0IDIzMmEyNCAyNCAwIDAgMCAtMjQgMjR2MTg0aC0zNjh2LTE4NGEyNCAyNCAwIDAgMCAtNDggMHYxOTJhNDAgNDAgMCAwIDAgNDAgNDBoMzg0YTQwIDQwIDAgMCAwIDQwLTQwdi0xOTJhMjQgMjQgMCAwIDAgLTI0LTI0eiIvPjwvZz48L3N2Zz4=" >
+</div>
 
 <script language="javascript">
-    function changeFav() {
-        if (document.getElementById("fav").src == "https://i.imgur.com/kDDHION.png") {
-            document.getElementById("fav").src = "https://i.imgur.com/pw5U3Vy.png"
-        }
-        else {
-            document.getElementById("fav").src = "https://i.imgur.com/kDDHION.png"
-        }
-    }
-
-    function changeRSVP() {
-        if (document.getElementById("rsvp").src == "https://i.imgur.com/UUP1FbJ.png") {
-            document.getElementById("rsvp").src = "https://i.imgur.com/LyENq6z.png"
-        }
-        else {
-            document.getElementById("rsvp").src = "https://i.imgur.com/UUP1FbJ.png"
-        }
-    }
-
     function copyToClipboard() {
         var copyText = document.getElementById("toCopy")
         copyText.type = 'text';
         copyText.select();
-        copyText.setSelectionRange(0, 99999); 
         document.execCommand("copy");
-        alert("Copied the text: " + copyText.value);
         copyText.type = 'hidden';
+        alert("Copied the text: " + copyText.value);
     }
 </script>
 
+{% endblock %}
+
+{% block sidebar %}
+<div>
+    <div class="icons">
+        <div class="icons">
+            {% if post in favorite_posts %}
+            <form method="post" action="{% url 'events:unfav-event' post.id %}">
+                {% csrf_token %}
+                <input type="image" onclick='changeFav()' src="https://i.imgur.com/pw5U3Vy.png" style="width: 25px;margin-right: 7px; filter:invert(100%)">
+            </form>
+            {% else %}
+            <form action="{% url 'events:fav-event' post.id %}">
+                {% csrf_token %}
+                <input type="image" onclick='changeFav()' src="https://i.imgur.com/kDDHION.png" style="width: 25px;margin-right: 7px; filter:invert(100%)">
+            </form>
+            {% endif %}
+        <em>fave.</em>
+        </div>
+        
+        <div class="icons">
+            {% if post in rsvped_posts %}
+            <form method="post" action="{% url 'events:unrsvp-event' post.id %}">
+                {% csrf_token %}
+                <input type="image" onclick='changeRSVP()' src="https://i.imgur.com/LyENq6z.png" style="width: 25px;margin-right: 7px; filter:invert(100%)">
+            </form>
+            {% else %}
+            <form method="post" action="{% url 'events:rsvp-event' post.id %}">
+                {% csrf_token %}
+                <input type="image" onclick='changeRSVP()' src="https://i.imgur.com/UUP1FbJ.png" style="width: 25px; margin-right: 7px; filter:invert(100%)">
+            </form>
+            {% endif %}
+            <em>rsvp.</em>
+        </div>
+        
+        <div class="icons">
+            <input type="hidden" value="{{ request.build_absolute_uri }}" id="toCopy">
+            <input type="image" onclick="copyToClipboard()" style="width: 25px; align-self: start; margin-right:7px; filter:invert(100%)" src="https://i.imgur.com/My5FbZN.png">
+            <em>share.</em>
+        </div>
+    </div>
+    <div class="flex-col">
+        {{ post.event_date|date:"l, F d, Y"  }} 
+        {% if post.event_time %} <br>
+            {{ post.event_time }}<br>
+        {% endif %}
+        {% if post.event_address %}
+            <br>
+            {{ post.event_address }}
+            <br>
+        {% endif %}
+        
+        {% if post.event_organizer.profile.profile_pic %}
+        <br>
+        <div>
+            <a href="{% url 'events:profile' post.event_organizer.username %}"><img width=150px style="justify-content: center;" src="{{ post.event_organizer.profile.profile_pic.url }}"></a>
+        </div>
+        {% endif %}
+        {% if post.event_organizer %}
+        <a href="{% url 'events:profile' post.event_organizer.username %}">{{ post.event_organizer }}</a>
+        {% endif %} 
+
+        {% if post.longitude %}
+            ({{ post.latitude }}, {{ post.longitude }})
+        {% endif %}
+
+       
+    </div>
+</div>
 {% endblock %}

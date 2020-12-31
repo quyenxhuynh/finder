@@ -2,22 +2,29 @@
 {% load static %}
 {% block content %}
 
-<h1>Agenda</h1>
-<hr>
-{% if events %}
-{% for event in events %}
-    {% if event.event_date %}
-        {{ event.event_date }}
+<h1>Agenda.</h1>
+<div class='event-container'>
+    {% if events %}
+        {% for event in events %}
+            
+            <div class="event-list">
+                <div class="float-left">
+                    {% if event.event_date %}
+                        {{ event.event_date|date:'D, M d, Y' }}
+                    {% endif %}
+                    <h3><a class='event-header' href="{% url 'events:individual-event' event.id %}">{{ event.event_name }}.</a></h3>
+                    {% if event.event_description %}
+                        <p>{{ event.event_description|truncatewords:9 }}</p>
+                    {% endif %}
+                </div>
+                <div class='float-right'>
+                    <a href="{% url 'events:profile' event.event_organizer.username %}">{{ event.event_organizer }}</a>
+                    
+                </div>
+            </div>
+        {% endfor %}
     {% endif %}
-    <h3><a href="{% url 'events:individual-event' event.id %}">{{ event.event_name }}</a></h3>
-    {% if event.event_description %}
-        <p>{{ event.event_description }}</p>
-    {% endif %}
-
-    <hr>
-
-{% endfor %}
-{% endif %}
+    </div>
 
 {% endblock %}
 
@@ -30,31 +37,27 @@
     
     <div class="form-group">
         <label for="event_name">Event Title</label>
-        <input name="event_name" type="text" class="form-control" placeholder="Meet-Up">
+        <input name="event_name" type="text" class="form-control form-input" placeholder="Meet-Up">
     </div>
-    <!-- <div class="form-group">
-        <label for="event_organizer">Event Organizer</label>
-        <input name="event_organizer" type="text" class="form-control" placeholder="UVA">
-    </div> -->
     <div class="form-group">
         <label for="event_description">Event Description</label>
-        <input name="event_description" type="text" class="form-control" placeholder="Enter text here">
+        <input name="event_description" type="text" class="form-control form-input" placeholder="hendrerit gravida rutrum quisque non tellus orci ac auctor augue mauris augue neque gravida in fermentum et sollicitudin ac orci phasellus egestas tellus rutrum tellus pellentesque eu tincidunt tortor aliquam nulla facilisi cras fermentum odio eu feugiat pretium nibh ipsum consequat nisl vel pretium lectus quam id leo in vitae turpis massa sed elementum tempus egestas sed sed risus pretium quam vulputate dignissim suspendisse in est ante in nibh mauris cursus mattis molestie a iaculis at erat pellentesque adipiscing commodo elit at imperdiet dui accumsan sit amet nulla facilisi morbi tempus iaculis urna id volutpat lacus laoreet non curabitur gravida">
     </div>
     <div class="form-group">
         <label for="event_date">Event Date</label>
-        <input name="event_date" type="date" class="form-control" default="Date">
+        <input name="event_date" type="date" class="form-control form-input" default="Date">
     </div>
     <div class="form-group">
         <label for="event_time">Event Time</label>
-        <input name="event_time" type="time" class="form-control" default="Time">
+        <input name="event_time" type="time" class="form-control form-input" default="Time">
     </div>
     <div class="form-group">
         <label for="event_tags">Tags</label>
-        <input name="event_tags" type="text" class="form-control" placeholder="civic duty, social justice">
+        <input name="event_tags" type="text" class="form-control form-input" placeholder="civic duty, social justice">
     </div>
 
     <div class="form-group">
-        <button name="filter" type="submit" class="save btn btn-outline-dark">Filter</button>
+        <button name="filter" type="submit" class="save btn btn-outline-light">Filter.</button>
     </div> 
 
 </form>

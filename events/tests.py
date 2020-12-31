@@ -1,7 +1,10 @@
 from django.test import TestCase
-from events.models import Event, Profile
+from events.models import Event
+from events.models import Profile
+from events.models import User
 import datetime
 import tempfile
+from django.core.exceptions import ObjectDoesNotExist, FieldError
 
 # Create your tests here.
 
@@ -149,4 +152,101 @@ class EventsTestCaseThree(TestCase):
         Event.objects.filter(pk=test_event.pk).update(event_name="")
         test_event.refresh_from_db()
         self.assertEqual(test_event.event_name, "")
+    
+    #exception test for event name (object does not exist)
+    def test_event_name_except(self):
+        try:
+            Event.objects.get(event_name="NoEventName")
+            self.fail("An error")
+        except ObjectDoesNotExist:
+            pass
+    
+    #exception test for event description (field error)
+    def test_event_name_except_two(self):
+        try:
+            Event.objects.get(no_name="NoEventDescription")
+            self.fail("An error")
+        except FieldError:
+            pass
 
+    #exception test for event description (object does not exist)
+    def test_event_description_except(self):
+        try:
+            Event.objects.get(event_description="NoEventDescription")
+            self.fail("An error")
+        except ObjectDoesNotExist:
+            pass
+    
+    #exception test for event description (field error)
+    def test_event_description_except_two(self):
+        try:
+            Event.objects.get(no_description="NoEventDescription")
+            self.fail("An error")
+        except FieldError:
+            pass
+
+    #exception test for event date (object does not exist)
+    def test_event_date_except(self):
+        try:
+            Event.objects.get(event_date=datetime.date(2020, 12, 3))
+            self.fail("An error")
+        except ObjectDoesNotExist:
+            pass
+    
+    #exception test for event date (field error)
+    def test_event_date_except_two(self):
+        try:
+            Event.objects.get(no_date=datetime.date(2020, 12, 3))
+            self.fail("An error")
+        except FieldError:
+            pass
+    
+    #exception test for event time (object does not exist)
+    def test_event_time_except(self):
+        try:
+            Event.objects.get(event_time=datetime.time(12, 30, 0))
+            self.fail("An error")
+        except ObjectDoesNotExist:
+            pass
+    
+    #exception test for event time (field error)
+    def test_event_time_except_two(self):
+        try:
+            Event.objects.get(no_time=datetime.time(12, 30, 0))
+            self.fail("An error")
+        except FieldError:
+            pass
+
+    #exception test for event banner (object does not exist)
+    def test_event_banner_except(self):
+        try:
+            image = tempfile.NamedTemporaryFile(suffix=".jpg").name
+            Event.objects.get(event_banner=image)
+            self.fail("An error")
+        except ObjectDoesNotExist:
+            pass
+    
+    #exception test for event banner (field error)
+    def test_event_banner_except_two(self):
+        try:
+            image = tempfile.NamedTemporaryFile(suffix=".jpg").name
+            Event.objects.get(no_banner=image)
+            self.fail("An error")
+        except FieldError:
+            pass
+    
+    #exception test for event tags (object does not exist)
+    def test_event_tags_except(self):
+        try:
+            Event.objects.get(event_tags="testtag1")
+            self.fail("An error")
+        except ObjectDoesNotExist:
+            pass
+    
+    #exception test for event tags (field error)
+    def test_event_tags_except_two(self):
+        try:
+            Event.objects.get(no_tags="testtag1")
+            self.fail("An error")
+        except FieldError:
+            pass

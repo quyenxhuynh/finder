@@ -1,46 +1,49 @@
 {% extends 'events/base.html' %}
-
+{% load socialaccount %}
 {% block content %}
+<h1>Sign up.</h1>
 
 <form method="post">
     {% csrf_token %}
+    <div style="margin-left: 25px">
     <div class="form-group">
-        <label>First Name</label>
-        <input name="first_name" class="form-control" type="text" placeholder="john" required>
+        <label>First Name.</label>
+        <input name="first_name" class="form-control form-input" type="text" placeholder="john" required>
     </div>
 
     <div class="form-group">
-        <label>Last Name</label>
-        <input name="last_name" class="form-control" type="text" placeholder="smith" required>
+        <label>Last Name.</label>
+        <input name="last_name" class="form-control form-input" type="text" placeholder="smith" required>
     </div>
 
     <div class="form-group">
-        <label>Email</label>
-        <input name="email" class="form-control" type="text" placeholder="jsmith@company.com">
+        <label>Email.</label>
+        <input name="email" class="form-control form-input" type="text" placeholder="jsmith@company.com">
     </div>
 
     <div class="form-group">
-        <label>Username</label>
-        <input name="username" id="username" class="form-control" type="text" placeholder="jsmith" required>
+        <label>Username.</label>
+        <input name="username" id="username" class="form-control form-input" type="text" placeholder="jsmith" required>
     </div>
 
     <div class="form-group">
-        <label>Password</label>
-        <input name="password1" id="password" class="form-control" type="password" placeholder="********" required>
+        <label>Password.</label>
+        <input name="password1" id="password" class="form-control form-input" type="password" placeholder="********" required>
     </div>
     
     <div class="form-group">
-        <label>Confirm Password</label>
-        <input name="password2" id="confirm_password" class="form-control" type="password" placeholder="********" required>
+        <label>Confirm Password.</label>
+        <input name="password2" id="confirm_password" class="form-control form-input" type="password" placeholder="********" required>
     </div>
     
     <div class="form-group">
-        <button name="signup" type="submit" class="btn btn-gold2 btn-login bg-dark btn-dark">sign up.</button>
+        <button name="signup" type="submit" class="save btn btn-outline-light">sign up.</button>
     </div>
     
   </form>
 
   <hr>
-  <p>Have an account? <a href="{% url 'events:signin' %}">Sign in!</a></p>
-
+  <a style="color:#F7C547;" href="{% provider_login_url 'google' %}">Sign up with Google.</a>
+  <p>Have an account? <a style="color:#F7C547;" href="{% url 'events:signin' %}">Sign in!</a></p>
+</div>
 {% endblock %}

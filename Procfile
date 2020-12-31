@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn finder.wsgi
+web: gunicorn protest_finder.wsgi

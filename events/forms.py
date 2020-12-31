@@ -17,5 +17,6 @@ class CreateUserForm(UserCreationForm):
 class NewEventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['event_name', 'event_description', 'event_date', 'event_time', 'event_banner', 'event_tags']
+        fields = ['event_name', 'event_description', 'event_date', 'event_time', 'event_address', 
+        'event_latitude', 'event_longitude', 'event_banner', 'event_tags']
 

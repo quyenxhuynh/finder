@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.core.paginator import Paginator
 from django.views.generic import (
     ListView,
     DetailView,
@@ -18,6 +19,11 @@ from django.views.generic import (
 from .filters import EventFilter
 from .forms import CreateUserForm, NewEventForm
 from .models import Event, Profile
+from django.core.serializers.json import DjangoJSONEncoder
+from django.core import serializers
+from django.http import JsonResponse
+import json
+import datetime
 
 def index(request):
     if request.user.is_authenticated:
@@ -53,7 +59,14 @@ def index(request):
             return render(request, 'events/index.html')
 
 def home(request):
-    return render(request, 'events/home.html')
+    now = datetime.date.today()
+    all_events_qs = Event.objects.filter(event_date__gte=now).order_by('event_date')
+    all_events = []
+    for x in all_events_qs:
+        if x.event_latitude and x.event_longitude:
+            all_events.append(x.as_dict())
+    context = {'all_events': all_events}
+    return render(request, 'events/home.html', context)
 
 def signin(request):
     if (request.method == "POST"):
@@ -90,7 +103,8 @@ def signup(request):
 
 class EventCreateView(LoginRequiredMixin, CreateView):
     model = Event
-    fields = ['event_name', 'event_description', 'event_date', 'event_time', 'event_banner', 'event_tags']
+    fields = ['event_name', 'event_description', 'event_date', 'event_time', 'event_address', 
+        'event_latitude', 'event_longitude', 'event_banner', 'event_tags']
     template_name = 'events/new-event.html'
 
     def form_valid(self, form):
@@ -99,7 +113,8 @@ class EventCreateView(LoginRequiredMixin, CreateView):
 
 class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Event
-    fields = ['event_name', 'event_description', 'event_date', 'event_time', 'event_banner', 'event_tags']
+    fields = ['event_name', 'event_description', 'event_date', 'event_time', 'event_address', 
+        'event_latitude', 'event_longitude', 'event_banner', 'event_tags']
     template_name = 'events/update-event.html'
     context_object_name = 'post'
 
@@ -130,18 +145,29 @@ def signout(request):
     logout(request)
     return redirect('events:home')
 
-
 def all_events(request):
-    latest_events = Event.objects.all()
+    latest_events = Event.objects.order_by('-date_posted')
     myFilter = EventFilter(request.GET, queryset=latest_events)
-    latest_events = myFilter.qs
+    filtered_events = myFilter.qs
+    
+    pager = Paginator(filtered_events, 5)
+    page_number = request.GET.get('page')
+    page_setting = pager.get_page(page_number)
 
-    context = {'events':latest_events, 'eventFilter':myFilter}
+    context = {'events':page_setting, 'eventFilter':myFilter}
     return render(request, 'events/all-events.html', context)
+
+def discover(request):
+    now = datetime.date.today()
+    new_events = Event.objects.filter(event_date__gte=now).order_by('-date_posted')[:3]
+    upcoming = Event.objects.filter(event_date__gte=now).order_by('event_date')[:3]
+    context = {'new_events':new_events, 'upcoming':upcoming}
+    return render(request, 'events/discover.html', context)
 
 @login_required
 def saved_events(request):
-    saved = (request.user.profile.favorites.all() | request.user.profile.rsvped.all()).distinct()
+    now = datetime.date.today()
+    saved = (request.user.profile.favorites.filter(event_date__gte=now) | request.user.profile.rsvped.filter(event_date__gte=now)).distinct()
     myFilter = EventFilter(request.GET, queryset=saved)
     saved = myFilter.qs
 
@@ -151,21 +177,25 @@ def saved_events(request):
     context = {'events':saved, 'eventFilter':myFilter, 'favorited_posts':favs, 'rsvped_posts':rsvped}
     return render(request, 'events/saved-events.html', context)
 
+@login_required
 def favorite(request, pk): 
     post = Event.objects.get(pk=pk)
     request.user.profile.favorites.add(post)
     return HttpResponseRedirect(reverse('events:individual-event', args=(pk,)))
 
+@login_required
 def unfavorite(request, pk): 
     post = Event.objects.get(pk=pk)
     request.user.profile.favorites.remove(post)
     return HttpResponseRedirect(reverse('events:individual-event', args=(pk,)))
 
+@login_required
 def rsvp(request, pk): 
     post = Event.objects.get(pk=pk)
     request.user.profile.rsvped.add(post)
     return HttpResponseRedirect(reverse('events:individual-event', args=(pk,)))
 
+@login_required
 def unrsvp(request, pk): 
     post = Event.objects.get(pk=pk)
     request.user.profile.rsvped.remove(post)
@@ -175,21 +205,18 @@ class AllPostsListView(ListView):
     model = Event
     template_name = 'events/all-events.html'
     context_object_name = 'events'
-    ordering = ['-date_posted']
+    ordering = ['date_posted']    
 
-
-class PostDetailView(DetailView):
-    model = Event
-    template_name = 'events/individual-event.html'
-    context_object_name = 'post'
-
-    def get_context_data(self, **kwargs):
-        context = super(PostDetailView, self).get_context_data(**kwargs)
-        context['favorite_posts'] = self.request.user.profile.favorites.all()
-        context['rsvped_posts'] = self.request.user.profile.rsvped.all()
-        return context
-
-
+def individual_event(request, pk):
+    post = Event.objects.get(pk=pk)
+    if request.user.is_authenticated:
+        favs = request.user.profile.favorites.all()
+        rsvped = request.user.profile.rsvped.all()
+        context = {'favorite_posts':favs, "rsvped_posts":rsvped, 'post':post}
+        return render(request, 'events/individual-event.html', context)
+    else:
+        context = {'post':post}
+        return render(request, 'events/individual-event.html', context)
 
 @method_decorator(login_required, name='dispatch')
 class ProfileDetailView(DetailView):
@@ -203,4 +230,3 @@ class ProfileListView(ListView):
     template_name = 'events/people.html'
     context_object_name = 'profiles'
     ordering = ['user.username']
-

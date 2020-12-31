@@ -2,7 +2,58 @@
 {% load static %}
 
 {% block content %}
-  {% if profile %}
+
+<h1>events i'm attending.</h1>
+{% if profile.favorites.all.first %}
+<div class="flex-row">
+  <div style="flex-basis: 50%;">
+    <div class="flex-col">
+      <div style="text-align: right;">{{ profile.favorites.all.first.event_date|date:'D, M d, Y' }}</div>
+      <div style="text-align: left;"><h3><a href="{% url 'events:individual-event' profile.favorites.all.first.id %}">{{ profile.favorites.all.first }}</a></h3></div>
+      <div style="text-align: left;">{{ profile.favorites.all.first.event_description|truncatewords:50 }} </div>
+    </div>
+  </div>
+  {% if profile.favorites.all.1 %}
+  <div style="flex-basis: 50%;">
+    <div class="flex-col">
+      <div style="text-align: right;">{{ profile.favorites.all.1.event_date|date:"D, b n, Y" }}</div>
+      <div style="text-align: left;"><h3><a href="{% url 'events:individual-event' profile.favorites.all.1.id %}">{{ profile.favorites.all.1 }}</a></h3></div>
+      <div style="text-align: left;">{{ profile.favorites.all.1.event_description|truncatewords:50 }} </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% else %}
+{{ user.username }} has not RSVP'ed to any events.
+<br>
+{% endif %}
+
+<br>
+<h1>my favorite events.</h1>
+{% if profile.rsvped.all.first %}
+<div class="flex-row">
+  <div style="flex-basis: 50%;">
+    <div class="flex-col">
+      <div style="text-align: right;">{{ profile.rsvped.all.first.event_date|date:"D, b n, Y" }}</div>
+      <div style="text-align: left;"><h3><a href="{% url 'events:individual-event' profile.rsvped.all.first.id %}">{{ profile.rsvped.all.first }}</a></h3></div>
+      <div style="text-align: left;">{{ profile.rsvped.all.first.event_description|truncatewords:50 }} </div>
+    </div>
+  </div>
+  {% if profile.rsvped.all.1 %}
+  <div style="flex-basis: 50%;">
+    <div class="flex-col">
+      <div style="text-align: right;">{{ profile.rsvped.all.1.event_date|date:"D, b n, Y" }}</div>
+      <div style="text-align: left;"><h3><a href="{% url 'events:individual-event' profile.rsvped.all.1.id %}">{{ profile.rsvped.all.1 }}</a></h3></div>
+      <div style="text-align: left;">{{ profile.rsvped.all.1.event_description|truncatewords:50 }} </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% else %}
+{{ user.username }} has not favorited any events.
+{% endif %}
+
+  <!-- {% if profile %}
     <div class="content-section">
       <div class="media">
         <div class="media-body">
@@ -14,10 +65,30 @@
     <hr>
     {% ifequal profile.user user%}
     <div>
-      <a href="/accounts/password/change/">Change Password</a>
+      <a style="color:white;" href="/accounts/password/change/">Change Password.</a>
       <br>
-      <a href="/accounts/email/">Change E-Mail</a>
+      <a style="color:white;" href="/accounts/email/">Change E-Mail.</a>
     </div>
     {% endifequal %}
-  {% endif %}
+  {% endif %} -->
 {% endblock content %}
+
+{% block sidebar %}
+
+<div class="flex-col">
+  <div>
+    <img width=150px style="justify-content: center;" src="{{ user.profile.profile_pic.url }}">
+  </div>
+  <div>
+    <h1>{{ profile.user.username }}</h1>
+  </div>
+  {% if profile.bio %}
+  <br>
+  <div>
+    <p style="text-align: left;">{{ profile.bio }}</p>
+  </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

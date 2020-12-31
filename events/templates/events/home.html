@@ -1,42 +1,131 @@
 {% extends 'events/base.html' %}
 {% block content %}
-<head>
+
+<html>
+  <head>
     <title>Add Map</title>
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDh98EQumuDYtZDjs3HB8wsXTVeQvNknW0&callback=initMap&libraries=&v=weekly"
       defer
     ></script>
     <style type="text/css">
+      /* Set the size of the div element that contains the map */
       #map {
-        height: 500px;
+        height: 750px;
         width: 150%;
+        border-radius: 25px;
         display: flex;
         align-items: center;
-        border-radius: 25px;
       }
     </style>
     <script>
-      function initMap() {
-        const uluru = { lat: -25.344, lng: 131.036 };
-        const map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 4,
-          center: uluru,
-        });
-        const marker = new google.maps.Marker({
-          position: uluru,
-          map: map,
-        });
+      let map;
+      //const current_loc = { lat: 0, lng: 0 }
+		const current_loc = { lat: 38.397, lng: -78.44 }
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
+        // set to charlottesville's coordinates
+        center: { lat: 38.397, lng: -78.44 },
+        zoom: 14,
+      });
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            current_loc.lat = position.coords.latitude
+            current_loc.lng = position.coords.longitude
+            const pos = {
+              lat: current_loc.lat,
+              lng: current_loc.lng,
+            };
+            map.setCenter(pos);
+          },
+          () => {
+            handleLocationError(true, map.getCenter());
+          }
+        );
+      } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, map.getCenter());
       }
+		  addMarkers({{all_events|safe}});
+      }
+
+      // uses global variable (current_loc = { lat: 0, lng: 0 }) to calculate 
+      // distance from current location to an event
+      // @param event_coords: { lat: 0, lng: 0 }
+      function calcDistance(event_coords) {
+        var R = 6371; // km
+        var dLat = toRad(event_coords.lat-current_loc.lat);
+        var dLon = toRad(event_coords.lng-current_loc.lng);
+        var lat1 = toRad(current_loc.lat);
+        var lat2 = toRad(event_coords.lat);
+
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+        var d = R * c;
+        return d;
+      }
+
+      // Converts numeric degrees to radians
+      function toRad(Value) 
+      {
+          return Value * Math.PI / 180;
+      }
+
+	function initMarker(event_coords1, eventx) {
+		const url_loc = "/posts/" + eventx.pk;
+		const marker = new google.maps.Marker({
+			position: event_coords1,
+			map: map,
+			url:  url_loc
+		});
+		var infowindow = new google.maps.InfoWindow({
+			content: eventx.event_name,
+			map: map
+		});
+		google.maps.event.addListener(marker, 'click', function() {
+			window.location.href = this.url;
+		});
+		google.maps.event.addListener(marker, 'mouseover', function() {
+			infowindow.open(map, this);
+		});
+		google.maps.event.addListener(marker, 'mouseout', function() {
+			infowindow.close();
+		});
+	}
+
+      function addMarkers(all_events) {
+        // declare some radius
+        const radius = 50;
+
+		  for (i = 0; i < all_events.length; i++) {
+			  let eventx = all_events[i];
+			  // grab the event's location
+			  const event_coords1 = { lat: parseFloat(eventx.event_latitude), lng: parseFloat(eventx.event_longitude) };
+			  if (calcDistance(event_coords1) <= radius) {
+				  initMarker(event_coords1, eventx);
+			  }
+		  }
+	  }
+
     </script>
   </head>
+  
 
 {% if user.is_authenticated %}
     <h1>Home</h1>
     Welcome back, {{ user.username }}
-    <a href="{% url 'events:signout' %}">Log out</a>
+    <a href="{% url 'events:signout' %}" style="color: #F7C547;">Log out</a>
 {% else %}
-    <a href="{% url 'events:signin' %}"><h1>Log in</h1></a>
+    <a href="{% url 'events:signin' %}" style="color: #F7C547;"><h1>Log in</h1></a>
 {% endif %}
-<div id="map"></div>
+
+ <body onload="initMap()">
+	 <div class="gmapbox">
+  		<div id="map"></div>
+	 </div>
+ </body>
 
 {% endblock content %}

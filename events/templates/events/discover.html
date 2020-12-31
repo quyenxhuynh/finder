@@ -1,0 +1,33 @@
+{% extends 'events/base2.html' %}
+{% block content %}
+
+<h1>upcoming events.</h1>
+<div class="flex-row">
+{% for event in upcoming %}
+  <div style="flex-basis: 50%;">
+    <div class="flex-col">
+      <div style="text-align: right;">{{ event.event_date|date:'D, M d, Y' }}</div>
+      <div style="text-align: left;"><h3><a href="{% url 'events:individual-event' event.id %}">{{ event.event_name }}</a></h3></div>
+      <div style="text-align: left;">{{ event.event_description|truncatewords:50 }} </div>
+    </div>
+  </div>
+
+{% endfor %}
+</div>
+
+<br>
+<h1>new events.</h1>
+<div class="flex-row">
+{% for event in new_events %}
+  <div style="flex-basis: 50%;">
+    <div class="flex-col">
+      <div style="text-align: right;">{{ event.event_date|date:"D, b n, Y" }}</div>
+      <div style="text-align: left;"><h3><a href="{% url 'events:individual-event' event.id %}">{{ event.event_name }}</a></h3></div>
+      <div style="text-align: left;">{{ event.event_description|truncatewords:50 }} </div>
+    </div>
+  </div>
+
+{% endfor %}
+</div>
+
+{% endblock %}

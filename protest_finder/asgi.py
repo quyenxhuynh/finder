@@ -1,5 +1,5 @@
 """
-ASGI config for finder project.
+ASGI config for protest_finder project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'finder.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'protest_finder.settings')
 
 application = get_asgi_application()
